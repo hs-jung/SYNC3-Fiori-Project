@@ -1,0 +1,10 @@
+/* Enter your custom styles here */
+.img{
+    width: 200px;
+    margin: auto;
+    display: block;
+    margin-bottom: 20px;
+}
+.container{
+    display: block;
+}

@@ -1,0 +1,34 @@
+<mvc:View controllerName="login.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout">
+    <FlexBox
+        alignItems="Center"
+        justifyContent="Center"
+        width="100%"
+        height="100%">
+        <!-- sap.ui.layout.Grid -->
+        <l:Grid >
+            <Panel class="sapUiSmallMargin container" accessibleRole="Region">
+                <layoutData>
+                    <l:GridData span="XL12 L12 M12 S12" />
+                </layoutData>
+                <content >
+                    <f:SimpleForm>
+                        <f:content >
+                            <Image class="img" src="/assets/image/logo.png" />
+                            <Label text="아이디" />
+                            <Input id="idLoginid" value="" placeholder="아이디" />
+                            <Label text="비밀번호" />
+                            <Input id="idPassword" type="Password" value="" placeholder="비밀번호"/>
+
+                            <Button width="100%" press="onLogin" type="Emphasized" text="로그인"/>
+                        </f:content>
+                    </f:SimpleForm>
+                </content>
+            </Panel>
+        </l:Grid>
+    </FlexBox>
+    
+</mvc:View>
