@@ -15,18 +15,25 @@ sap.ui.define([
                 var oDataModel = this.getView().getModel();
                 var oID = this.getView().byId("idLoginid");
                 var oPW = this.getView().byId("idPassword");
+                var body = "";
 
                 const password = oPW.getValue();
                 var sha256PW = sha256(password);
 
                 console.log(sha256PW);
-                oDataModel.read(`/MemberSet(Loginid='${oID.getValue()}',Password='${sha256PW}')`, {
+
+                body = `/MemberSet(Loginid='${oID.getValue()}',Password='${sha256PW}')`;
+                // body = `/MemberSet`;
+                oDataModel.read(body, {
                     success : function(oReturn) {
                         // oModel.setProperty("/list", oReturn.results);
                         console.log(oReturn);
                     }
                 });
-
+            },
+            onJoinus : function() {
+                var oRouter = this.getOwnerComponent().getRouter();
+                oRouter.navTo("RouteJoin");
             }
         });
     });

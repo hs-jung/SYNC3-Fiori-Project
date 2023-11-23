@@ -1,18 +1,19 @@
 /* Enter your custom styles here */
+#__data21{
+    width: 400px;
+}
 .imageBox{
-    width : 192px;
-    height: 192px;
-    border-radius: 70%;
-    overflow: hidden;
+    /* height: 100%; */
+    
+    /* overflow: hidden; */
 }
 .img{
-    width: 192px;
-    max-width: 100%;
+    width: 300px;
     height: auto;
     margin: auto;
     display: block;
     margin-bottom: 20px;
-    object-fit: cover;
+    border-radius: 50%;
 }
 .container{
     display: block;

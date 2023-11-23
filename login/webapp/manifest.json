@@ -104,6 +104,13 @@
           "target": [
             "TargetMain"
           ]
+        },
+        {
+          "name": "RouteJoin",
+          "pattern": "join/",
+          "target": [
+            "TargetJoin"
+          ]
         }
       ],
       "targets": {
@@ -113,6 +120,13 @@
           "clearControlAggregation": false,
           "viewId": "Main",
           "viewName": "Main"
+        },
+        "TargetJoin": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Join",
+          "viewName": "Join"
         }
       }
     },
