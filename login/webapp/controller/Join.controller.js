@@ -18,6 +18,29 @@ sap.ui.define([
                 //이벤트 객체의 파라미터 정보에 arguments 에서 넘겨받은 데이터 확인
                 var oArgu = oEvent.getParameters().arguments;
                 // oArgu => { OrderID : 'hihi', option : 123 }
+            },
+            onidChange : function(oEvent) {
+                var oDataModel = this.getView().getModel();  
+                var id = oEvent.getParameters().value;
+                var body = "";
+
+                body = `/MemberSet(Loginid='${id}',Password='${id}')`;
+                console.log(body);
+
+                // body = `/MemberSet`;
+                oDataModel.read(body, {
+                    success : function(oReturn) {
+                        // oModel.setProperty("/list", oReturn.results);
+                        debugger;
+                        console.log(oReturn);
+                    },
+                    error : function(oReturn)
+                    {
+                        debugger;
+                        console.log(oReturn);
+                    }
+                });
+                    
             }
         });
     });

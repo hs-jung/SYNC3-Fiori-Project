@@ -17,18 +17,33 @@
                 <content >
                     <f:SimpleForm>
                         <f:content >
-                            <VBox class="imageBox">
-                                <Image class="img" src="/assets/image/logo.png" />
-                            </VBox>
                             
-                            <VBox><Label text="아이디" /></VBox>
-                            <VBox><Input id="idLoginid"  value="" placeholder="아이디" /></VBox>
-                            <VBox><Label text="비밀번호" /></VBox>
-                            <VBox><Input id="idPassword" value="" placeholder="비밀번호" type="Password" /></VBox>
-
-                            <VBox><Button class="btnLogin" width="100%" press="onLogin" type="Emphasized" text="로그인" /></VBox>
-                            <VBox><HBox class="divisionLine" width="100%" /></VBox>
-                            <VBox><Button class="btnJoinus" width="100%" press="onJoinus" text="회원가입" /></VBox>
+                                 <Text class="row" text="회원가입" />
+                            
+                            
+                                <Label class="row" text="아이디" />
+                            
+                            
+                                <Input class="row" id="idLoginid"  value="" placeholder="아이디"  change="onidChange"/>
+                            
+                            
+                                <Label class="row" text="비밀번호" />
+                            
+                            
+                                <Input class="row" id="idPassword1" value="" placeholder="비밀번호" type="Password" />
+                            
+                            
+                                <Label class="row" text="비밀번호 확인" />
+                            
+                            
+                                <Input class="row" id="idPassword2" value="" placeholder="비밀번호" type="Password" />
+                            
+                            
+                                <HBox class="divisionLine row"/>
+                            
+                            
+                                <Button class="btnLogin row" width="100%" press="onJoinus" type="Emphasized" text="회원가입" />
+                            
                         </f:content>
                     </f:SimpleForm>
                 </content>
