@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="Z03SE_GW_MM_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <EntityType Name="CAMTList" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="MtCod"/>
+                </Key>
+                <Property Name="MtCod" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="자재코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PtCod" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="창고코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Camt" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="2" sap:unicode="false" sap:unit="Unit" sap:label="사용량" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Unit" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Unit of Weight" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="AvgPrice" Type="Edm.Decimal" Nullable="false" Precision="21" Scale="3" sap:unicode="false" sap:unit="CurrUnit" sap:label="평균단가" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="CurrUnit" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="통화" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="currency-code"/>
+                <Property Name="DelFlag" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="삭제 플래그" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Mtname" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="자재명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityContainer Name="Z03SE_GW_MM_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="CAMTListSet" EntityType="Z03SE_GW_MM_SRV.CAMTList" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <atom:link rel="self" href="http://saphana01.konyang.ac.kr:8080/sap/opu/odata/sap/Z03SE_GW_MM_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://saphana01.konyang.ac.kr:8080/sap/opu/odata/sap/Z03SE_GW_MM_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
