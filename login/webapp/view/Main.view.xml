@@ -10,20 +10,31 @@
         height="100%">
         <!-- sap.ui.layout.Grid -->
         <l:Grid >
-            <Panel class="sapUiSmallMargin container" accessibleRole="Region">
+            <Panel class="container" accessibleRole="Region">
                 <layoutData>
                     <l:GridData span="XL12 L12 M12 S12" />
                 </layoutData>
                 <content >
                     <f:SimpleForm>
                         <f:content >
-                            <Image class="img" src="/assets/image/logo.png" />
+                            <VBox class="imageBox">
+                                <Image class="img" src="/assets/image/logo.png" />
+                                <!-- <ImageContent
+                                    class="sapUiLargeMarginTop sapUiLargeMarginBottom"
+                                    src="/assets/image/logo.png"
+                                    description="Profile image"
+                                    press="press">
+                                </ImageContent> -->
+                            </VBox>
+                            
                             <Label text="아이디" />
                             <Input id="idLoginid" value="" placeholder="아이디" />
                             <Label text="비밀번호" />
                             <Input id="idPassword" type="Password" value="" placeholder="비밀번호"/>
 
-                            <Button width="100%" press="onLogin" type="Emphasized" text="로그인"/>
+                            <Button class="btnLogin" width="100%" press="onLogin" type="Emphasized" text="로그인"/>
+                            <HBox class="divisionLine"></HBox>
+                            <Button class="btnJoinus" width="100%" press="onJoinus" text="회원가입"/>
                         </f:content>
                     </f:SimpleForm>
                 </content>

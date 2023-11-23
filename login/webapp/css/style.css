@@ -1,10 +1,29 @@
 /* Enter your custom styles here */
+.imageBox{
+    width : 192px;
+    height: 192px;
+    border-radius: 70%;
+    overflow: hidden;
+}
 .img{
-    width: 200px;
+    width: 192px;
+    max-width: 100%;
+    height: auto;
     margin: auto;
     display: block;
     margin-bottom: 20px;
+    object-fit: cover;
 }
 .container{
     display: block;
+}
+.m-auto{
+    margin: auto;
+}
+.btnLogin{
+    margin-top: 10px;
+}
+.divisionLine{
+    border-top: 1px solid #444444;
+    margin: 30px 0px;
 }
