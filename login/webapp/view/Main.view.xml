@@ -22,7 +22,7 @@
                             </VBox>
                             
                             <VBox><Label text="아이디" /></VBox>
-                            <VBox><Input id="idLoginid"  value="" placeholder="아이디" /></VBox>
+                            <VBox><Input id="idLoginid"  value="" placeholder="아이디"/></VBox>
                             <VBox><Label text="비밀번호" /></VBox>
                             <VBox><Input id="idPassword" value="" placeholder="비밀번호" type="Password" /></VBox>
 

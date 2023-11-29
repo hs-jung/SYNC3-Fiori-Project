@@ -11,17 +11,19 @@ sap.ui.define([
             onInit: function () {
                 var oData = {
                     "Member" : {
-                        LOGIN_ID : "",
-                        LOGIN_PW : "",
-                        CUST_NAME : "",
-                        CUST_ADDR : "",
-                        CUST_TEL : "",
-                        CUST_BIRTH : "",
-                        POSTCODE : "",
-                        DETAIL_ADDR : "",
-                        MEMBERJOIN_DATE : "",
-                        EMAIL : "",
-                        GENDER : ""
+                        Loginid : "",
+                        Password : "",
+                        MemberJoinSet : [{
+                            CUST_NAME : "",
+                            CUST_ADDR : "",
+                            CUST_TEL : "",
+                            CUST_BIRTH : "",
+                            POSTCODE : "",
+                            DETAIL_ADDR : "",
+                            MEMBERJOIN_DATE : "",
+                            EMAIL : "",
+                            GENDER : ""
+                        }]
                     }
                 };
                 var oModel = new sap.ui.model.json.JSONModel(oData);
@@ -77,6 +79,21 @@ sap.ui.define([
 
                 this.byId("idLoginid").setValueStateText(message);
             },
+            onNamechanged : function() {
+                var oDataModel = this.getView().getModel('member');
+
+                if(oDataModel.oData.Member.CUST_NAME == ""){
+                    sap.m.MessageToast.show("이름은 필수 입력값 입니다.");
+                    this.byId("idCustName").setValueState('Error');
+
+                    message = "이름은 필수 입력값 입니다. 이름을 입력하세요."
+
+                    this.byId("idCustName").setValueStateText(message);
+                }
+                else{
+                    this.byId("idCustName").setValueState('Success');
+                }
+            },
             onJoinus : function() {
                 var message = "";
                 var oDataModel = this.getView().getModel('member');
@@ -127,7 +144,6 @@ sap.ui.define([
                     return false;
                 }
                 
-                
                 // NAME CHECK
 
                 if(oDataModel.oData.Member.CUST_NAME == ""){
@@ -152,30 +168,31 @@ sap.ui.define([
                 }
 
                 //BIRTH CHECK
-                if( oDataModel.oData.CUST_BIRTH !== "" && oDataModel.oData.CUST_BIRTH !== undefined ){
-                  birth_year  = oDataModel.oData.Member.CUST_BIRTH.getFullYear();
-                  birth_month = oDataModel.oData.Member.CUST_BIRTH.getMonth()+1
+                if( oDataModel.oData.Member.MemberJoinSet.CUST_BIRTH !== "" && oDataModel.oData.Member.MemberJoinSet.CUST_BIRTH !== undefined ){
+                  birth_year  = oDataModel.oData.Member.MemberJoinSet.CUST_BIRTH.getFullYear();
+                  birth_month = oDataModel.oData.Member.MemberJoinSet.CUST_BIRTH.getMonth()+1
+                  
                   if(birth_month < 10)
                   {
                     birth_month = "0" + birth_month;
                   }
-                  birth_date   = oDataModel.oData.Member.CUST_BIRTH.getDate();
+                  
+                  birth_date   = oDataModel.oData.Member.MemberJoinSet.CUST_BIRTH.getDate();
+                  
                   if(birth_date < 10)
                   {
                     birth_date = "0" + birth_date;
                   }
                   
-                  oDataModel.oData.Member.CUST_BIRTH = birth_year.toString() + birth_month.toString() + birth_date.toString();
+                  oDataModel.oData.Member.MemberJoinSet.CUST_BIRTH = birth_year.toString() + birth_month.toString() + birth_date.toString();
                 }
-
-                //PW SHA256
-                oDataModel.oData.Member.LOGIN_PW =  sha256(oDataModel.oData.Member.LOGIN_PW);
-
                 //SUNMIT
-                onCreateEntity();
+                this.onCreateEntity();
             },
             onCheckPW : function() {
                 var message = '';
+
+
 
                 if( this.byId("idPassword1").mProperties.value !== this.byId("idPassword2").mProperties.value)
                 {
@@ -195,16 +212,15 @@ sap.ui.define([
                 var oMainModel = this.getView().getModel('member');
                 var oData = oMainModel.getData();
 
-                /** oData 변수에 들어가 있는 json Data
-                 * {
-                 *      memID : 'Input Value'
-                 *      Memnm : ''
-                 *      Telno : ''
-                 *      Email : ''
-                 * }
-                 */
+                debugger;
+                //PW SHA256
+                // oData.LOGIN_PW
+                oData.Member.LOGIN_PW =  sha256(oData.Member.LOGIN_PW);
+
+                debugger;
                 this.getView().getModel().create("/MemberJoinSet", oData, {
                     success: function(oReturn) {
+                        debugger;
                         sap.m.MessageToast.show("데이터 생성 완료");
 
                     },
@@ -213,18 +229,6 @@ sap.ui.define([
                         debugger;
                     }
                 })
-
-                /**
-                 * Deep Create
-                 * {
-                 *  HeaderID : "0001",
-                 * Items : [
-                 *  {}, {}, {}, {}
-                 * ]
-                 * }
-                 */
-
-
             }
         });
     });

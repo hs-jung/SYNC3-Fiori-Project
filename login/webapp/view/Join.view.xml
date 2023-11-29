@@ -2,29 +2,36 @@
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m"
     xmlns:f="sap.ui.layout.form"
-    xmlns:l="sap.ui.layout">
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core">
     <FlexBox
         alignItems="Center"
         justifyContent="Center"
         width="100%"
         height="100%">
         <!-- sap.ui.layout.Grid -->
-        <l:Grid >
-            <Panel accessibleRole="Region">
-                <layoutData>
-                    <l:GridData span="XL12 L12 M12 S12" />
-                </layoutData>
-                <content >
-                    <f:SimpleForm>
-                        <f:content >
-                            
-                                 <Text class="row" text="회원가입" />
-                            
-                            
-                                <Label class="row" text="아이디" />
-                            
-                            
-                                <Input class="row" id="idLoginid"  
+        <VBox class="sapUiSmallMargin">
+		<f:SimpleForm id="SimpleFormChange480_Trial"
+			editable="true"
+			layout="ResponsiveGridLayout"
+			title="회원가입"
+			labelSpanXL="4"
+			labelSpanL="4"
+			labelSpanM="4"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="0"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="3"
+			columnsL="3"
+			columnsM="2"
+			singleContainerFullSize="false" >
+			<f:content>
+				<core:Title text="아이디/비밀번호" />
+				<Label text="아이디" />
+                <Input class="row" id="idLoginid"  
                                 required="true"
                                 valueStateText="아이디는 필수 입력 항목 입니다. 5글자 이상 15글자 이하의 아이디를 입력해 주세요."
                                 value="{
@@ -36,132 +43,140 @@
                                 }" 
                                 maxLength="15"
                                 placeholder="아이디"  change="onidChange" />
-                            
-                            
-                                <Label class="row" text="비밀번호"/>
-                            
-                            
-                                <Input class="row" id="idPassword1" value="{
-                                    path : 'member>/Member/LOGIN_PW'
-                                }"
-                                required="true" 
-                                placeholder="비밀번호"
-                                type="Password" />
-                            
-                            
-                                <Label class="row" text="비밀번호 확인" />
-                            
-                            
-                                <Input 
-                                required="true"
-                                class="row" id="idPassword2" value="" placeholder="비밀번호" type="Password"  change="onCheckPW"/>
 
-                                <Label class="row" text="이름" />
-                            
-                            
-                                <Input class="row"   
-                                required="true"
-                                id="idCustName"
-                                maxLength="10"
-                                valueStateText="이름은 필수 입력 항목 입니다. 2글자 이상 10글자 이하로 입력해 주세요."
-                                value="{
-                                    path: 'member>/Member/CUST_NAME',
-                                    constraints : {
-                                        minLength : 2,
-                                        maxLength : 10
-                                    }
-                                }" 
-                                placeholder="이름"/>
+                <Label class="row" text="비밀번호"/>
+            
+            
+                <Input class="row" id="idPassword1" value="{
+                    path : 'member>/Member/LOGIN_PW'
+                }"
+                required="true" 
+                placeholder="비밀번호"
+                type="Password" />
+            
+                <Label class="row" text="비밀번호 확인" />
+            
+                <Input 
+                required="true"
+                class="row" id="idPassword2" value="" placeholder="비밀번호" type="Password"  change="onCheckPW"/>
 
-                                <Label class="row" text="주소" />
-                            
-                            
-                                <Input class="row"   
-                                value="{
-                                    path: 'member>/Member/CUST_ADDR'
-                                }" 
-                                placeholder="주소"
-                                maxLength="20"
-                                />
+                <core:Title text="주소" />
+                
 
-                                <Label class="row" text="상세주소" />
+				<!-- <Label text="Street/No." />
+				<Input value="{Street}">
+				</Input>
+				<Input value="{HouseNumber}">
+					<layoutData>
+						<l:GridData span="XL2 L3 M3 S4" />
+					</layoutData>
+				</Input>
+				<Label text="ZIP Code/City" />
+				<Input value="{ZIPCode}">
+					<layoutData>
+						<l:GridData span="XL2 L3 M3 S4" />
+					</layoutData>
+				</Input>
+				<Input value="{City}" />
+				<Label text="Country" />
+				<Select id="country" selectedKey="{Country}">
+					<items>
+						<core:Item text="England" key="England"/>
+						<core:Item text="Germany" key="Germany"/>
+						<core:Item text="USA" key="USA"/>
+					</items>
+				</Select> -->
+                <Label class="row" text="주소" />
+                <Input class="row"   
+                value="{
+                    path: 'member>/Member/MemberJoinSet/CUST_ADDR'
+                }" 
+                placeholder="주소"
+                maxLength="20"
+                >
+                </Input>
+                <Input value="{member>/Member/MemberJoinSet/POSTCODE}"
+                placeholder="우편번호">
+					<layoutData>
+						<l:GridData span="XL2 L3 M3 S4" />
+					</layoutData>
+				</Input>
+                <Label class="row" text="상세주소" />
+                                    
+                <Input class="row"   
+                value="{
+                    path: 'member>/Member/MemberJoinSet/DETAIL_ADDR'
+                }" 
+                placeholder="상세주소"
+                maxLength="30"
+                />
+				<core:Title text="회원정보" />
+				<Label class="row" text="이름" />
+                <Input class="row"   
+                required="true"
+                id="idCustName"
+                maxLength="10"
+                valueStateText="이름은 필수 입력 항목 입니다. 2글자 이상 10글자 이하로 입력해 주세요."
+                value="{
+                    path: 'member>/Member/MemberJoinSet/CUST_NAME',
+                    constraints : {
+                        minLength : 2,
+                        maxLength : 10
+                    }
+                }" 
+                change="onNamechanged"
+                placeholder="이름"/>
+				<Label class="row" text="연락처" />
                             
-                            
-                                <Input class="row"   
-                                value="{
-                                    path: 'member>/Member/DETAIL_ADDR'
-                                }" 
-                                placeholder="상세주소"
-                                maxLength="30"
-                                />
+                <Input class="row"   
+                value="{
+                    path: 'member>/Member/MemberJoinSet/CUST_TEL'
+                }" 
+                placeholder="연락처"
+                maxLength="20"/>
 
-                                <Label class="row" text="연락처" />
-                            
-                            
-                                <Input class="row"   
-                                value="{
-                                    path: 'member>/Member/CUST_TEL'
-                                }" 
-                                placeholder="연락처"
-                                maxLength="20"/>
+                <Label class="row" text="생년월일" />
 
-                                <Label class="row" text="생년월일" />
+                <DatePicker
+                    id="DP2"
+                    value="{
+                        path : 'member>/Member/MemberJoinSet/CUST_BIRTH',
+                        'type':'sap.ui.model.type.Date',
+                        'formatOptions': {
+                            'pattern': 'yyyy.MM.dd'
+                        }
+                    }"/>
 
-                               	<DatePicker
-                                    id="DP2"
-                                    value="{
-                                        path : 'member>/Member/CUST_BIRTH',
-                                        'type':'sap.ui.model.type.Date',
-                                        'formatOptions': {
-                                            'pattern': 'yyyy.MM.dd'
-                                        }
-                                    }"/>
-     
-<!--                             
-                                <Input class="row"   
-                                value="{
-                                    path: 'member>/Member/CUST_BIRTH'
-                                }" 
-                                placeholder="생년월일"/> -->
+                <Label class="row" text="이메일" />
+            
+                <Input class="row"   
+                valueStateText="E-mail 주소를 입력해주세요."
+                value="{
+                    path: 'member>/Member/MemberJoinSet/EMAIL',
+                    constraints : {
+                        minLength : 0,
+                        maxLength : 30
+                    },
+                    type: '.customEMailType'
+                }" 
+                type='Email'
+                maxLength="30"
+                placeholder="이메일"/>
 
-                                <Label class="row" text="성별" />
-                            
-                                <RadioButtonGroup id="rbg2" columns="2" selectedIndex="2">
-                                    <RadioButton id="RB2-1" text="남성" />
-                                    <RadioButton id="RB2-2" text="여성" />
-                                </RadioButtonGroup>
+                <Label class="row" text="성별" />
+            
+                <RadioButtonGroup id="rbg2" columns="2" selectedIndex="2">
+                    <RadioButton id="RB2-1" text="남성" />
+                    <RadioButton id="RB2-2" text="여성"/>
+                </RadioButtonGroup>
 
-                                <Label class="row" text="이메일" />
-                            
-                            
-                                <Input class="row"   
-                                valueStateText="E-mail 주소를 입력해주세요."
-                                value="{
-                                    path: 'member>/Member/EMAIL',
-                                    constraints : {
-                                        minLength : 0,
-                                        maxLength : 30
-                                    },
-				                    type: '.customEMailType'
-                                }" 
-                                type='Email'
-                                maxLength="30"
-                                placeholder="이메일"/>
+                <core:Title text="" />
+                <core:Title text="" />
+                <!-- <VBox class="divisionLine row"></VBox> -->
 
-                                
-                            
-                            
-                            
-                                <HBox class="divisionLine row"/>
-                            
-                            
-                                <Button class="btnLogin row" width="100%" press="onJoinus" type="Emphasized" text="회원가입" />
-                            
-                        </f:content>
-                    </f:SimpleForm>
-                </content>
-            </Panel>
-        </l:Grid>
+                <Button class="btnLogin row" width="100%" press="onJoinus" type="Emphasized" text="회원가입" />
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
     </FlexBox>
-    
 </mvc:View>
