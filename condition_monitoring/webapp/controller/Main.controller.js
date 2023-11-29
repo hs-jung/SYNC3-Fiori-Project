@@ -10,9 +10,25 @@ sap.ui.define([
 
         return Controller.extend("conditionmonitoring.controller.Main", {
             onInit: function () {
-                var oDataModel = new JSONModel({})
-                var oModel = new JSONModel(sap.ui.require.toUrl("sap/ui/demo/mock/products.json"));
+                var uri = "";
+                var oDataModel = this.getView().getModel();
+                
+                var oModel = new JSONModel({selectedBackground:"Dashboard"})
                 this.getView().setModel(oModel);
+
+                //자재 마스터 데이터 가져오기
+                uri = "/ItemsSet";
+
+                oDataModel.read(uri, {
+                    success : function(oReturn) {
+
+                     debugger;
+
+                    }.bind(this)
+                });
+
+                //온도, 습도, Co2 데이터 가져오기
+
 
                 // document.getElementById('idDashboard').onclick();
 
