@@ -1,1 +1,27 @@
 /* Enter your custom styles here */
+.f-right{
+    float:right;
+}
+#__label0--FE{
+    visibility: hidden;
+}
+
+#application-camtmonitoring-display-component---Main--backgroundLabel{
+    visibility: hidden;
+}
+
+#__form0--FC-NoHead{
+    /* padding: 10px 3rem */
+}
+
+#__button0{
+    float: right;
+}
+
+#application-camtmonitoring-display-component---Main--backgroundLabel{
+    width: auto !important;
+}
+
+#application-camtmonitoring-display-component---Main{
+    overflow: scroll;
+}
