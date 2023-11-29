@@ -18,7 +18,10 @@
                     <f:SimpleForm>
                         <f:content >
                             <VBox class="imageBox">
-                                <Image class="img" src="/assets/image/logo.png" />
+                                <Image class="img" src="{
+                                    path : '/assets/image/logo.png',
+                                    formatter: '.fnImageSet'
+                                }" />
                             </VBox>
                             
                             <VBox><Label text="아이디" /></VBox>
