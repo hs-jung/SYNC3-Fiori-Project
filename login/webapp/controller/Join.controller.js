@@ -1,31 +1,30 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/core/routing/History"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller) {
+    function (Controller, History) {
         "use strict";
 
         return Controller.extend("login.controller.Join", {
             onInit: function () {
                 var oData = {
-                    "Member" : {
-                        Loginid : "",
-                        Password : "",
+                        CustName : "",
+                        CustAddr : "",
+                        CustTel : "",
+                        CustBirth : "",
+                        Postcode : "",
+                        DetailAddr : "",
+                        MemberjoinDate : "",
+                        Email : "",
+                        Gender : "",
                         MemberJoinSet : [{
-                            CUST_NAME : "",
-                            CUST_ADDR : "",
-                            CUST_TEL : "",
-                            CUST_BIRTH : "",
-                            POSTCODE : "",
-                            DETAIL_ADDR : "",
-                            MEMBERJOIN_DATE : "",
-                            EMAIL : "",
-                            GENDER : ""
+                            Loginid : "",
+                            Password : ""
                         }]
-                    }
-                };
+                    };
                 var oModel = new sap.ui.model.json.JSONModel(oData);
                 this.getView().setModel(oModel, 'member');
 
@@ -35,33 +34,22 @@ sap.ui.define([
             },
             //라우터 패턴이 "일치할때마다" 실행
             _patternMatched : function(oEvent) {
-                //이벤트 객체의 파라미터 정보에 arguments 에서 넘겨받은 데이터 확인
-                var oArgu = oEvent.getParameters().arguments;
-                // oArgu => { OrderID : 'hihi', option : 123 }
-                
+
             },
             onidChange : function(oEvent) {
                 var oDataModel = this.getView().getModel();  
                 var id = oEvent.getParameters().value;
                 var body = "";
 
-                
+                body = `/MemberJoinSet(Loginid='${id}',Password='CHECKID')`;
 
-                body = `/MemberSet(Loginid='${id}',Password='CHECKID')`;
-                console.log(body);
-
-                // body = `/MemberSet`;
                 oDataModel.read(body, {
                     success : function(oReturn) {
-                        // oModel.setProperty("/list", oReturn.results);
                         this._setInputValueState(oReturn.Loginid);
-                        
-                        console.log(oReturn);
 
                     }.bind(this),
                     error : function(oReturn)
                     {
-                        console.log(oReturn);
 
                     }.bind(this)
                 });
@@ -82,7 +70,7 @@ sap.ui.define([
             onNamechanged : function() {
                 var oDataModel = this.getView().getModel('member');
 
-                if(oDataModel.oData.Member.CUST_NAME == ""){
+                if(oDataModel.oData.CustName == ""){
                     sap.m.MessageToast.show("이름은 필수 입력값 입니다.");
                     this.byId("idCustName").setValueState('Error');
 
@@ -103,7 +91,7 @@ sap.ui.define([
                 var birth_date = "";
 
                 // ID CHECK
-                if(oDataModel.oData.Member.LOGIN_ID == ""){
+                if( this.byId("idLoginid")._getInputValue() == ""){
                     sap.m.MessageToast.show("아이디는 필수 입력값 입니다.");
                     this.byId("idLoginid").setValueState('Error');
 
@@ -113,7 +101,7 @@ sap.ui.define([
                     return false;
                 }
                 // PW CHECK
-                if(oDataModel.oData.Member.LOGIN_PW == ""){
+                if( this.byId("idPassword1")._getInputValue() == ""){
                     sap.m.MessageToast.show("비밀번호는 필수 입력값 입니다.");
                     this.byId("idPassword1").setValueState('Error');
 
@@ -124,7 +112,7 @@ sap.ui.define([
                 }
                     
                      // PW CHECK
-                if( this.byId("idPassword2")._getInputValue()== ""){
+                if( this.byId("idPassword2")._getInputValue() == ""){
                     sap.m.MessageToast.show("비밀번호는 필수 입력값 입니다.");
                     this.byId("idPassword2").setValueState('Error');
 
@@ -134,7 +122,7 @@ sap.ui.define([
                     return false;
                 }
 
-                if( this.byId("idPassword2")._getInputValue() != oDataModel.oData.Member.LOGIN_PW){
+                if( this.byId("idPassword1")._getInputValue() != this.byId("idPassword2")._getInputValue()){
                     sap.m.MessageToast.show("비밀번호가 일치 하지 않습니다.");
                     this.byId("idPassword2").setValueState('Error');
 
@@ -146,7 +134,7 @@ sap.ui.define([
                 
                 // NAME CHECK
 
-                if(oDataModel.oData.Member.CUST_NAME == ""){
+                if(oDataModel.oData.CustName == ""){
                     sap.m.MessageToast.show("이름은 필수 입력값 입니다.");
                     this.byId("idCustName").setValueState('Error');
 
@@ -156,43 +144,27 @@ sap.ui.define([
                     return false;
                 }
 
-                // GENDER CHECK
+                // Gender CHECK
                 if( this.byId("rbg2").mProperties.selectedIndex == 0 )
                 {
-                    oDataModel.oData.Member.GENDER = 'M';
+                    oDataModel.oData.Gender = 'M';
                 }
 
                 if( this.byId("rbg2").mProperties.selectedIndex == 1 )
                 {
-                    oDataModel.oData.Member.GENDER = 'F';
+                    oDataModel.oData.Gender = 'F';
                 }
 
                 //BIRTH CHECK
-                if( oDataModel.oData.Member.MemberJoinSet.CUST_BIRTH !== "" && oDataModel.oData.Member.MemberJoinSet.CUST_BIRTH !== undefined ){
-                  birth_year  = oDataModel.oData.Member.MemberJoinSet.CUST_BIRTH.getFullYear();
-                  birth_month = oDataModel.oData.Member.MemberJoinSet.CUST_BIRTH.getMonth()+1
-                  
-                  if(birth_month < 10)
-                  {
-                    birth_month = "0" + birth_month;
-                  }
-                  
-                  birth_date   = oDataModel.oData.Member.MemberJoinSet.CUST_BIRTH.getDate();
-                  
-                  if(birth_date < 10)
-                  {
-                    birth_date = "0" + birth_date;
-                  }
-                  
-                  oDataModel.oData.Member.MemberJoinSet.CUST_BIRTH = birth_year.toString() + birth_month.toString() + birth_date.toString();
+                if( oDataModel.oData.CustBirth == "" || oDataModel.oData.CustBirth == undefined ){
+
+                    oDataModel.oData.CustBirth = new Date('9999-12-31');
                 }
                 //SUNMIT
                 this.onCreateEntity();
             },
             onCheckPW : function() {
                 var message = '';
-
-
 
                 if( this.byId("idPassword1").mProperties.value !== this.byId("idPassword2").mProperties.value)
                 {
@@ -215,20 +187,40 @@ sap.ui.define([
                 debugger;
                 //PW SHA256
                 // oData.LOGIN_PW
-                oData.Member.LOGIN_PW =  sha256(oData.Member.LOGIN_PW);
+                oData.MemberJoinSet[0].Loginid = this.byId("idLoginid").mProperties.value;
+                oData.MemberJoinSet[0].Password = sha256(this.byId("idPassword1").mProperties.value);
+                oData.MemberjoinDate = new Date();
+
 
                 debugger;
-                this.getView().getModel().create("/MemberJoinSet", oData, {
+                this.getView().getModel().create("/MemberJoinCustSet", oData, {
                     success: function(oReturn) {
-                        debugger;
-                        sap.m.MessageToast.show("데이터 생성 완료");
+                        sap.m.MessageToast.show("환영합니다! 잠시후 로그인 페이지로 이동합니다.");
 
-                    },
+                        setTimeout(this.onBack, 3000);
+
+                    }.bind(this),
                     error : function(oError) {
                         // 에러 처리
-                        debugger;
+                        console.log(oError);
                     }
                 })
+            },
+            //뒤로가기
+            onBack : function() {
+                var oHistory = History.getInstance();
+                var sPreviousHash = oHistory.getPreviousHash();
+
+                if(sPreviousHash !== undefined){
+                    //sap router 히스토리가 없는 경우에는
+                    //window 히스토리에서 뒤로 가기
+                    window.history.go(-1);
+                }
+                else{
+                    // sap router 히스토리가 있으면 메인 화면으로 이동
+                    var oRouter = this.getOwnerComponent().getRouter();
+                    oRouter.navTo("RouteNorthwind",{});
+                }
             }
         });
     });
