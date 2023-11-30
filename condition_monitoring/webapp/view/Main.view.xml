@@ -4,6 +4,7 @@
     xmlns:l="sap.ui.layout"
 	xmlns:mc="sap.suite.ui.microchart"
 	xmlns:form="sap.ui.layout.form"
+	xmlns:t="sap.ui.table"
     >
     <form:SimpleForm
         editable="true"
@@ -16,7 +17,8 @@
 		<Label text="2" /> 
 		<Label id="backgroundLabel" text="Background" />
 		<SegmentedButton
-			selectedKey="{/selectedBackground}"
+			class="text-right"
+			selectedKey="{/theme>/selectedBackground}"
 			ariaDescribedBy="backgroundLabel"
 			ariaLabelledBy="backgroundLabel">
 			<items>
@@ -29,169 +31,199 @@
 		
 	</form:SimpleForm>
 	<l:VerticalLayout id="containerLayout" width="100%">
-		<l:BlockLayout id="BlockLayout" background="{/selectedBackground}">
+		<l:BlockLayout id="BlockLayout" background="{/theme>/selectedBackground}">
 		
 			<l:BlockLayoutRow>
 				<l:BlockLayoutCell title="농작물 리스트">
-					<Image class="img" src="{
-						path : '/assets/image/str.jpg',
-						formatter: '.fnImageSet'
-					}" />
-					<Image class="img" src="{
-						path : '/assets/image/ccb.jpg',
-						formatter: '.fnImageSet'
-					}" />
-					<Image class="img" src="{
-						path : '/assets/image/tmt.jpg',
-						formatter: '.fnImageSet'
-					}" />
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{str>/mtname_kor}"
+						subheader="{str>/mtcode}" press="pressOnstr">
+						<TileContent>
+							<ImageContent src="{_rootPath}/assets/images/str.jpg" />
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{ccb>/mtname_kor}"
+						subheader="{ccb>/mtcode}" press="pressOnccb">
+						<TileContent>
+							<ImageContent src="{_rootPath}/assets/images/ccb.jpg" />
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{tmt>/mtname_kor}"
+						subheader="{tmt>/mtcode}" press="pressOntmt">
+						<TileContent>
+							<ImageContent src="{_rootPath}/assets/images/tmt.jpg" />
+						</TileContent>
+					</GenericTile>
 					<!-- <Text text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr." /> -->
 				</l:BlockLayoutCell>
 				<l:BlockLayoutCell
-						title="온도(℃)">
+						title=" 현재 온도 {lastdata>/Temperature} / {main>/bst_temperature}(℃)">
 						<l:Grid
 							defaultSpan="XL6 L6 M6 S12"
 							content="{/emphasized}">
 						<l:VerticalLayout class="sapUiTinyMargin">
-							<Text text="{description}" width="17rem"/>
-							<mc:LineMicroChart
-									size="{/size}"
-									threshold="26"
-									leftTopLabel="1"
-									leftBottomLabel="2"
-									rightTopLabel="3"
-									rightBottomLabel="4"
-									color="{color}"
-									press="press"
-									lines="{
-										path: 'lines',
-										templateShareable: true
-									}"
-									class="sapUiTinyMarginTop">
-							<!-- <mc:LineMicroChart
-									size="{/size}"
-									threshold="{threshold}"
-									leftTopLabel="{leftTopLabel}"
-									leftBottomLabel="{leftBottomLabel}"
-									rightTopLabel="{rightTopLabel}"
-									rightBottomLabel="{rightBottomLabel}"
-									color="{color}"
-									press="press"
-									lines="{
-										path: 'lines',
-										templateShareable: true
-									}"
-									class="sapUiTinyMarginTop"> -->
-								<mc:lines>
-									<mc:LineMicroChartLine
-											points="{
-												path: 'points',
-												templateShareable: true
-											}">
-										<mc:LineMicroChartEmphasizedPoint
-												x="26"
-												y="30"
-												color="{color}"
-												show="{show}"/>
-									</mc:LineMicroChartLine>
-								</mc:lines>
-							</mc:LineMicroChart>
+							<mc:InteractiveLineChart selectionChanged="selectionChanged" press="press" selectionEnabled="false">
+								<mc:points>
+									<mc:InteractiveLineChartPoint value="23.1" label="May" color="Neutral"/>
+									<mc:InteractiveLineChartPoint value="2.2" label="June" color="Critical"/>
+									<mc:InteractiveLineChartPoint value="41.4" label="July" color="Good"/>
+									<mc:InteractiveLineChartPoint value="5.8" label="Aug" color="Critical"/>
+									<mc:InteractiveLineChartPoint value="49.9" label="Sep" color="Good" selected="true"/>
+									<mc:InteractiveLineChartPoint value="-10.2" label="Oct" color="Error"/>
+								</mc:points>
+							</mc:InteractiveLineChart>
 						</l:VerticalLayout>
 					</l:Grid>
-					<Text text='Average 24H Temperature / Best Condition Temperature ${data>/str/bst_temperature}'/>
-					<Text text='{data>/str/mtname_kor}'/>
+					<Text text='Average 24H Temperature / Best Condition Temperature {data>/main/bst_temperature}'/>
+					<Text text='{data>/str/bst_temperature}'/>
 				</l:BlockLayoutCell>
 				<l:BlockLayoutCell
-						title="습도(%)">
+						title="현재 습도 {lastdata>/Humidity} / {main>/bst_humidity}(%)">
 					<Text text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr." />
 				</l:BlockLayoutCell>
 				<l:BlockLayoutCell
-						title="Co2(ppm)">
+						title="현재 Co2 농도 {lastdata>/Co2} / {main>/bst_co2}(ppm)">
 					<Text text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr." />
 				</l:BlockLayoutCell>
 			</l:BlockLayoutRow>
 
 			<l:BlockLayoutRow>
-				<l:BlockLayoutCell title="100% width cell" width="3">
-					<form:SimpleForm editable="true" backgroundDesign="Transparent" layout="ResponsiveGridLayout">
-						<Label text="Name on card"/>
-						<Input/>
-						<Label text="Card number" />
-						<Input/>
-						<Label text="Security code" />
-						<Input/>
-						<Label text="Expiration date" />
-						<DatePicker/>
-					</form:SimpleForm>
-					<Text text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr." />
+				<l:BlockLayoutCell title="" width="3">
+					
 				</l:BlockLayoutCell>
 			</l:BlockLayoutRow>
 			<l:BlockLayoutRow>
-				<l:BlockLayoutCell title="Heat">
-					<Text text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr." />
+				<l:BlockLayoutCell title="온풍기">
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="온풍기"
+						subheader="온풍기1" press="pressOnheater1">
+						<TileContent>
+							<ImageContent src="sap-icon://temperature" />
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="온풍기"
+						subheader="온풍기2" press="pressOnheater2">
+						<TileContent>
+							<ImageContent src="sap-icon://temperature" />
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="온풍기"
+						subheader="온풍기3" press="pressOnheater3">
+						<TileContent>
+							<ImageContent src="sap-icon://temperature" />
+						</TileContent>
+					</GenericTile>
 				</l:BlockLayoutCell>
 				<l:BlockLayoutCell
-						title="Cool">
-					<Text text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr." />
+						title="에어컨">
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="에어컨"
+						subheader="에어컨1" press="pressOnAC1">
+						<TileContent>
+							<ImageContent src="{_rootPath}/assets/images/ac.png" />
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="에어컨"
+						subheader="에어컨2" press="pressOnAC2">
+						<TileContent>
+							<ImageContent src="{_rootPath}/assets/images/ac.png" />
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="에어컨"
+						subheader="에어컨3" press="pressOnAC3">
+						<TileContent>
+							<ImageContent src="{_rootPath}/assets/images/ac.png" />
+						</TileContent>
+					</GenericTile>
 				</l:BlockLayoutCell>
 				<l:BlockLayoutCell
-						title="AddHumidity">
-					<Text text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr." />
+						title="가습기">
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="가습기"
+						subheader="가습기1" press="pressOnAH1">
+						<TileContent>
+							<ImageContent src="{_rootPath}/assets/images/humidifier.png" />
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="가습기"
+						subheader="가습기2" press="pressOnAH2">
+						<TileContent>
+							<ImageContent src="{_rootPath}/assets/images/humidifier.png" />
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="가습기"
+						subheader="가습기3" press="pressOnAH3">
+						<TileContent>
+							<ImageContent src="{_rootPath}/assets/images/humidifier.png" />
+						</TileContent>
+					</GenericTile>
 				</l:BlockLayoutCell>
 				<l:BlockLayoutCell
-						title="Filter">
-					<Text text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr." />
+						title="공기청정기">
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="공기청정기"
+						subheader="공기청정기1" press="pressOnACL1">
+						<TileContent>
+							<ImageContent src="{_rootPath}/assets/images/aircleaner.png" />
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="공기청정기"
+						subheader="공기청정기2" press="pressOnACL2">
+						<TileContent>
+							<ImageContent src="{_rootPath}/assets/images/aircleaner.png" />
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="공기청정기"
+						subheader="공기청정기3" press="pressOnACL3">
+						<TileContent>
+							<ImageContent src="{_rootPath}/assets/images/aircleaner.png" />
+						</TileContent>
+					</GenericTile>
 				</l:BlockLayoutCell>
 			</l:BlockLayoutRow>
 			<l:BlockLayoutRow accentCells="Accent3">
 				<l:BlockLayoutCell id="Accent3">
-					<Table
-						id="idProductsTable"
-						inset="false"
-						items="{
-							path: '/ProductCollection',
-							sorter: {
-								path: 'Name'
-							}
-						}">
-						<columns>
-							<Column width="12em">
-								<Text text="Product" />
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true">
-								<Text text="Supplier" />
-							</Column>
-							<Column
-								minScreenWidth="Tablet"
-								demandPopin="true"
-								hAlign="Right">
-								<Text text="Dimensions" />
-							</Column>
-							<Column
-								minScreenWidth="Tablet"
-								demandPopin="true"
-								hAlign="Center">
-								<Text text="Weight" />
-							</Column>
-							<Column hAlign="Right">
-								<Text text="Price" />					</Column>
-						</columns>
-						<items>
-							<ColumnListItem>
-								<cells>
-									<ObjectIdentifier title="{Name}" text="{ProductId}" />
-									<Text text="{SupplierName}" />
-									<Text text="{Width} x {Depth} x {Height} {DimUnit}" />
-									<ObjectNumber number="{WeightMeasure}" unit="{WeightUnit}" />
-									<ObjectNumber number="{
-										parts:[{path:'Price'},{path:'CurrencyCode'}],
-										type: 'sap.ui.model.type.Currency'
-										}"
-										unit="{CurrencyCode}" />
-								</cells>
-							</ColumnListItem>
-						</items>
-					</Table>
+					<t:Table
+                    rows="{data>/}"
+                    paste="onPaste"
+                    ariaLabelledBy="title">
+                        <t:extension>
+                            <OverflowToolbar style="Clear">
+                                <Title id="title" text=""/>
+                            </OverflowToolbar>
+                        </t:extension>
+                        <t:columns>
+                            <t:Column width="11rem">
+                                <Label text="측정일시" />
+                                <t:template>
+                                    <Text text="{data>Time}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="11rem">
+                                <Label text="온도" />
+                                <t:template>
+                                    <Text text="{data>Temperature}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="11rem">
+                                <Label text="습도" />
+                                <t:template>
+                                    <Text text="{data>Humidity}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="11rem">
+                                <Label text="Co2농도" />
+                                <t:template>
+                                    <Text text="{data>Co2}" wrapping="false" />
+                                </t:template>
+                            </t:Column>                            
+                        </t:columns>
+                    </t:Table>
 				</l:BlockLayoutCell>
 			</l:BlockLayoutRow>
 		</l:BlockLayout>

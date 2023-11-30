@@ -11,81 +11,197 @@ sap.ui.define([
         return Controller.extend("conditionmonitoring.controller.Main", {
             onInit: function () {
                 var oModel = new JSONModel({selectedBackground:"Dashboard"})
-                this.getView().setModel(oModel);
+                this.getView().setModel(oModel,'/theme');
 
-                var oMTDataModel = new JSONModel(
-                    {
-                        str: {
-                                bst_temperature : "",
-                                bst_humidity : "",
-                                bst_co2 : "",
-                                crt_temperature : "",
-                                crt_humidity : "",
-                                crt_co2 : "",
-                                avr_temperature : "",
-                                avr_humidity : "",
-                                avr_co2 : "",
-                                mtname_kor : "딸기"
-
-                            },   
-                            tmt: {
-                                bst_temperature : "",
-                                bst_humidity : "",
-                                bst_co2 : "",
-                                crt_temperature : "",
-                                crt_humidity : "",
-                                crt_co2 : "",
-                                avr_temperature : "",
-                                avr_humidity : "",
-                                avr_co2 : "",
-                                mtname_kor : "토마토"
-
-                            },   
-                            ccb: {
-                                bst_temperature : "",
-                                bst_humidity : "",
-                                bst_co2 : "",
-                                crt_temperature : "",
-                                crt_humidity : "",
-                                crt_co2 : "",
-                                avr_temperature : "",
-                                avr_humidity : "",
-                                avr_co2 : "",
-                                mtname_kor : ""
-
-                            },   
-                    })
-                this.getView().setModel(oMTDataModel, 'data');
-
-                var uri = "";
-                var oDataModel = this.getOwnerComponent().getModel();
-                
+                // document.getElementById('idDashboard').onclick();
+                var oRouter = this.getOwnerComponent().getRouter();
+                //Detail 라우터에 Pattern Matched 이벤트 붙이기
+                oRouter.getRoute('RouteMain').attachPatternMatched(this._patternMatched, this);
+            },
+            //라우터 패턴이 "일치할때마다" 실행
+            _patternMatched : function(oEvent) {
                 //자재 마스터 데이터 가져오기
-                uri = '/ItemsSet';
+                this.getMasterInfo();
+                
+                //온도, 습도, Co2 데이터 가져오기
+                this.getCondition();
+            },
+            getMasterInfo : function() {
 
+                var uri = "/ItemsSet";
+                // var oDataModel = this.getOwnerComponent().getModel();
+                var oDataModel = this.getView().getModel();
+                
                 oDataModel.read( uri, {
                     success : function(oReturn) {
-                        console.log(oReturn);
+                        // debugger;
+
+                        console.log(oReturn.results);
+
+                        var oMainModel = new JSONModel(
+                            {
+                                bst_temperature : "",
+                                bst_humidity : "",
+                                bst_co2 : "",
+                                crt_temperature : "",
+                                crt_humidity : "",
+                                crt_co2 : "",
+                                avr_temperature : "",
+                                avr_humidity : "",
+                                avr_co2 : "",
+                                mtname_kor : "",
+                                mtcode : ""
+                            });
+
+                        var oStrModel = new JSONModel(
+                            {
+                                bst_temperature : "",
+                                bst_humidity : "",
+                                bst_co2 : "",
+                                crt_temperature : "",
+                                crt_humidity : "",
+                                crt_co2 : "",
+                                avr_temperature : "",
+                                avr_humidity : "",
+                                avr_co2 : "",
+                                mtname_kor : "딸기",
+                                mtcode : "MM00000002"
+                            });
+                        var oCcbModel = new JSONModel(
+                            {
+                                bst_temperature : "",
+                                bst_humidity : "",
+                                bst_co2 : "",
+                                crt_temperature : "",
+                                crt_humidity : "",
+                                crt_co2 : "",
+                                avr_temperature : "",
+                                avr_humidity : "",
+                                avr_co2 : "",
+                                mtname_kor : "오이",
+                                mtcode : "MM00000007"
+                            });
+                        var oTmtModel = new JSONModel(
+                            {
+                                bst_temperature : "",
+                                bst_humidity : "",
+                                bst_co2 : "",
+                                crt_temperature : "",
+                                crt_humidity : "",
+                                crt_co2 : "",
+                                avr_temperature : "",
+                                avr_humidity : "",
+                                avr_co2 : "",
+                                mtname_kor : "토마토",
+                                mtcode : "MM00000012"
+                            });
+
                         this.getView().setModel(oReturn.results,"/MTMASTER");
-                        this.getView().getModel('data').oData.str.bst_temperature = this.getView().getModel('/MTMASTER').getData()[2].Tem;
-                        debugger;
+                        oStrModel.oData.bst_temperature = this.getView().getModel('/MTMASTER')[2].Tem;
+                        oCcbModel.oData.bst_temperature = this.getView().getModel('/MTMASTER')[7].Tem;
+                        oTmtModel.oData.bst_temperature = this.getView().getModel('/MTMASTER')[12].Tem;
+
+                        oStrModel.oData.bst_humidity = this.getView().getModel('/MTMASTER')[2].Hum;
+                        oCcbModel.oData.bst_humidity = this.getView().getModel('/MTMASTER')[7].Hum;
+                        oTmtModel.oData.bst_humidity = this.getView().getModel('/MTMASTER')[12].Hum;
+
+                        oStrModel.oData.bst_co2 = this.getView().getModel('/MTMASTER')[2].Co2
+                        oCcbModel.oData.bst_co2 = this.getView().getModel('/MTMASTER')[7].Co2
+                        oTmtModel.oData.bst_co2 = this.getView().getModel('/MTMASTER')[12].Co2
+
+                        this.getView().setModel(oMainModel, 'main');
+                        this.getView().setModel(oStrModel, 'str');
+                        this.getView().setModel(oCcbModel, 'ccb');
+                        this.getView().setModel(oTmtModel, 'tmt');
 
                     }.bind(this)
                 });
-              
-                //온도, 습도, Co2 데이터 가져오기
+            },
+            getCondition : function() {
+
+                var uri = "/ConditionSet";
+                // var oDataModel = this.getOwnerComponent().getModel();
+                var oDataModel = this.getView().getModel();
+                
+                //자재 마스터 데이터 가져오기
+                oDataModel.read( uri, {
+                    success : function(oReturn) {
+                        // debugger;
+
+                        console.log(oReturn.results);
+
+                        var oDataModel = new JSONModel(oReturn.results);
+                        var oLastDataModel = new JSONModel(oReturn.results[0]);
+
+                        this.getView().setModel(oDataModel, 'data');
+                        this.getView().setModel(oLastDataModel, 'lastdata');
 
 
-                // document.getElementById('idDashboard').onclick();
-
+                    }.bind(this)
+                });
             },
             onSliderMoved: function (oEvent) {
                 var fValue = oEvent.getParameter("value");
                 this.byId("containerLayout").setWidth(fValue + "%");
             },
             fnImageSet : function(path) {
+                // debugger;
                 return _rootPath + path;
 
+            },
+            pressOnstr : function() {
+                var oMainData = this.getView().getModel('main').getData();
+                var oStrData = this.getView().getModel('str').getData();
+
+                oMainData.bst_temperature = oStrData.bst_temperature; 
+                oMainData.bst_humidity    = oStrData.bst_humidity; 
+                oMainData.bst_co2         = oStrData.bst_co2; 
+                oMainData.crt_temperature = oStrData.crt_temperature; 
+                oMainData.crt_humidity    = oStrData.crt_humidity; 
+                oMainData.crt_co2         = oStrData.crt_co2; 
+                oMainData.avr_temperature = oStrData.avr_temperature; 
+                oMainData.avr_humidity    = oStrData.avr_humidity; 
+                oMainData.avr_co2         = oStrData.avr_co2; 
+                oMainData.mtname_kor      = oStrData.mtname_kor; 
+                oMainData.mtcode          = oStrData.mtcode; 
+
+                this.getView().getModel('main').setData(oMainData);
+            },
+            pressOnccb : function() {
+                var oMainData = this.getView().getModel('main').getData();
+                var oCcbData = this.getView().getModel('ccb').getData();
+
+                oMainData.bst_temperature = oCcbData.bst_temperature; 
+                oMainData.bst_humidity    = oCcbData.bst_humidity; 
+                oMainData.bst_co2         = oCcbData.bst_co2; 
+                oMainData.crt_temperature = oCcbData.crt_temperature; 
+                oMainData.crt_humidity    = oCcbData.crt_humidity; 
+                oMainData.crt_co2         = oCcbData.crt_co2; 
+                oMainData.avr_temperature = oCcbData.avr_temperature; 
+                oMainData.avr_humidity    = oCcbData.avr_humidity; 
+                oMainData.avr_co2         = oCcbData.avr_co2; 
+                oMainData.mtname_kor      = oCcbData.mtname_kor; 
+                oMainData.mtcode          = oCcbData.mtcode; 
+
+                this.getView().getModel('main').setData(oMainData);
+            },
+            pressOntmt : function() {
+                var oMainData = this.getView().getModel('main').getData();
+                var oTmtData = this.getView().getModel('tmt').getData();
+
+                oMainData.bst_temperature = oTmtData.bst_temperature; 
+                oMainData.bst_humidity    = oTmtData.bst_humidity; 
+                oMainData.bst_co2         = oTmtData.bst_co2; 
+                oMainData.crt_temperature = oTmtData.crt_temperature; 
+                oMainData.crt_humidity    = oTmtData.crt_humidity; 
+                oMainData.crt_co2         = oTmtData.crt_co2; 
+                oMainData.avr_temperature = oTmtData.avr_temperature; 
+                oMainData.avr_humidity    = oTmtData.avr_humidity; 
+                oMainData.avr_co2         = oTmtData.avr_co2; 
+                oMainData.mtname_kor      = oTmtData.mtname_kor; 
+                oMainData.mtcode          = oTmtData.mtcode; 
+
+                this.getView().getModel('main').setData(oMainData);
             }
         });
     });

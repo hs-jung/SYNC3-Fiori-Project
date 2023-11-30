@@ -1,1 +1,21 @@
 /* Enter your custom styles here */
+#__form0{
+    display: none;
+}
+
+#__label3--FE{
+    visibility: hidden;
+}
+
+#application-conditionmonitoring-display-component---Main--backgroundLabel{
+    visibility: hidden;
+}
+
+#__button0{
+    float: right;
+}
+
+.sapMGT.OneByOne {
+    width: 10rem;
+    height: 10rem;
+}
