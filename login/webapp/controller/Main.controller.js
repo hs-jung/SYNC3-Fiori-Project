@@ -71,6 +71,9 @@ sap.ui.define([
                 const oCrossAppNavigator = sap.ushell.Container.getService(
                   "CrossApplicationNavigation"
                 );
+
+                var custId = this.getView().getModel('CustID').getData();
+                debugger;
         
                 const hash =
                   (oCrossAppNavigator &&
@@ -79,7 +82,7 @@ sap.ui.define([
                         semanticObject: "Z03SE_HOME",
                         action: "display",
                       },
-                      params: { CustID: this.getView().getModel('CustID').getData() },
+                      params: {CustID: custId.CustID},
                     })) ||
                   "";
         
