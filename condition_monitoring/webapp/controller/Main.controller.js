@@ -67,7 +67,7 @@ sap.ui.define([
                     success : function(oReturn) {
                         console.log(oReturn);
                         this.getView().setModel(oReturn.results,"/MTMASTER");
-                        this.getView().getModel('data').oData.str.bst_temperature = this.getView().getModel('MTMASTER').getData()[2].Tem;
+                        this.getView().getModel('data').oData.str.bst_temperature = this.getView().getModel('/MTMASTER').getData()[2].Tem;
                         debugger;
 
                     }.bind(this)
