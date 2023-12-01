@@ -19,3 +19,11 @@
     width: 10rem;
     height: 10rem;
 }
+
+#application-conditionmonitoring-display-component---Main{
+    overflow: auto;
+}
+
+#application-Z03SE_MM_CONDITION-display-component---App--app{
+    overflow-y : scroll;
+}

@@ -5,6 +5,10 @@
 	xmlns:mc="sap.suite.ui.microchart"
 	xmlns:form="sap.ui.layout.form"
 	xmlns:t="sap.ui.table"
+	xmlns:c="sap.suite.ui.commons"
+	xmlns:viz="sap.viz.ui5.controls" 
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" 
+    xmlns:viz.data="sap.viz.ui5.data" 
     >
     <form:SimpleForm
         editable="true"
@@ -13,8 +17,6 @@
         
 		<Label text="Parent width" />
 		<Slider id="widthSlider" value="100" liveChange=".onSliderMoved" />
-		<Label text="1" /> 
-		<Label text="2" /> 
 		<Label id="backgroundLabel" text="Background" />
 		<SegmentedButton
 			class="text-right"
@@ -38,59 +40,100 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{str>/mtname_kor}"
 						subheader="{str>/mtcode}" press="pressOnstr">
 						<TileContent>
-							<ImageContent src="{_rootPath}/assets/images/str.jpg" />
+							<!-- <ImageContent src="{_rootPath}/assets/images/str.jpg" /> -->
+							<ImageContent src="{
+								path : 'str>/imagepath',
+                                formatter: '.fnImageSet'
+							}" />
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{ccb>/mtname_kor}"
 						subheader="{ccb>/mtcode}" press="pressOnccb">
 						<TileContent>
-							<ImageContent src="{_rootPath}/assets/images/ccb.jpg" />
+							<!-- <ImageContent src="{_rootPath}/assets/images/ccb.jpg" /> -->
+							<ImageContent src="{
+								path : 'images>/ccb',
+                                formatter: '.fnImageSet'
+							}" />
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{tmt>/mtname_kor}"
 						subheader="{tmt>/mtcode}" press="pressOntmt">
 						<TileContent>
-							<ImageContent src="{_rootPath}/assets/images/tmt.jpg" />
+							<!-- <ImageContent src="{_rootPath}/assets/images/tmt.jpg" /> -->
+							<ImageContent src="{
+								path : 'images>/tmt',
+                                formatter: '.fnImageSet'
+							}" />
 						</TileContent>
 					</GenericTile>
 					<!-- <Text text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr." /> -->
 				</l:BlockLayoutCell>
 				<l:BlockLayoutCell
-						title=" 현재 온도 {lastdata>/Temperature} / {main>/bst_temperature}(℃)">
-						<l:Grid
-							defaultSpan="XL6 L6 M6 S12"
-							content="{/emphasized}">
-						<l:VerticalLayout class="sapUiTinyMargin">
-							<mc:InteractiveLineChart selectionChanged="selectionChanged" press="press" selectionEnabled="false">
-								<mc:points>
-									<mc:InteractiveLineChartPoint value="23.1" label="May" color="Neutral"/>
-									<mc:InteractiveLineChartPoint value="2.2" label="June" color="Critical"/>
-									<mc:InteractiveLineChartPoint value="41.4" label="July" color="Good"/>
-									<mc:InteractiveLineChartPoint value="5.8" label="Aug" color="Critical"/>
-									<mc:InteractiveLineChartPoint value="49.9" label="Sep" color="Good" selected="true"/>
-									<mc:InteractiveLineChartPoint value="-10.2" label="Oct" color="Error"/>
-								</mc:points>
-							</mc:InteractiveLineChart>
-						</l:VerticalLayout>
-					</l:Grid>
-					<Text text='Average 24H Temperature / Best Condition Temperature {data>/main/bst_temperature}'/>
-					<Text text='{data>/str/bst_temperature}'/>
+						title=" 현재 온도 {lastdata>/Temperature} ℃">
+					<Text text="Best Condition Temperature {main>/bst_temperature} {= ${main>/bst_temperature} > 0 ? '℃' : ''}"/>
 				</l:BlockLayoutCell>
 				<l:BlockLayoutCell
-						title="현재 습도 {lastdata>/Humidity} / {main>/bst_humidity}(%)">
-					<Text text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr." />
+						title="현재 습도 {lastdata>/Humidity} %">
+					<Text text="Best Condition Humidity {main>/bst_humidity} {= ${main>/bst_humidity} > 0 ? '%' : ''}" />
 				</l:BlockLayoutCell>
 				<l:BlockLayoutCell
-						title="현재 Co2 농도 {lastdata>/Co2} / {main>/bst_co2}(ppm)">
-					<Text text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr." />
+						title="현재 Co2 농도 {lastdata>/Co2} ppm">
+					<Text text="Best Condition Co2 {main>/bst_co2} {= ${main>/bst_co2} > 0 ? 'ppm' : ''}" />
 				</l:BlockLayoutCell>
 			</l:BlockLayoutRow>
 
 			<l:BlockLayoutRow>
 				<l:BlockLayoutCell title="" width="3">
-					
+					<c:ChartContainer
+						class="sapUiResponsiveContentPadding"
+						id="chartContainer"
+						showFullScreen="true"
+						showPersonalization="false"
+						autoAdjustHeight="false"
+						personalizationPress="attachPersonalizationPress"
+						contentChange="attachContentChange"
+						title="온도/습도">
+						<c:content>
+							<c:ChartContainerContent
+								icon="sap-icon://line-chart"
+								title="Line Chart">
+								<c:content>
+									<!-- <viz:VizFrame id="chartContainerVizFrame" height="100%" width="100%"
+									              uiConfig="{applicationSet:'fiori'}"></viz:VizFrame> -->
+                                    <viz:VizFrame  id="idChart" vizType="line" />
+								</c:content>
+							</c:ChartContainerContent>
+						</c:content>
+					</c:ChartContainer>
+				</l:BlockLayoutCell>
+
+
+				<l:BlockLayoutCell title="" width="3">
+					<c:ChartContainer
+						class="sapUiResponsiveContentPadding"
+						id="chartContainer2"
+						showFullScreen="true"
+						showPersonalization="false"
+						autoAdjustHeight="false"
+						personalizationPress="attachPersonalizationPress"
+						contentChange="attachContentChange"
+						title="Co2 농도">
+						<c:content>
+							<c:ChartContainerContent
+								icon="sap-icon://line-chart"
+								title="Line Chart">
+								<c:content>
+									<!-- <viz:VizFrame id="chartContainerVizFrame" height="100%" width="100%"
+									              uiConfig="{applicationSet:'fiori'}"></viz:VizFrame> -->
+                                    <viz:VizFrame  id="idChart2" vizType="line" />
+								</c:content>
+							</c:ChartContainerContent>
+						</c:content>
+					</c:ChartContainer>
+				
 				</l:BlockLayoutCell>
 			</l:BlockLayoutRow>
 			<l:BlockLayoutRow>
@@ -121,21 +164,30 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="에어컨"
 						subheader="에어컨1" press="pressOnAC1">
 						<TileContent>
-							<ImageContent src="{_rootPath}/assets/images/ac.png" />
+							<ImageContent src="{
+								path : 'images>/ac',
+                                formatter: '.fnImageSet'
+							}" />
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="에어컨"
 						subheader="에어컨2" press="pressOnAC2">
 						<TileContent>
-							<ImageContent src="{_rootPath}/assets/images/ac.png" />
+							<ImageContent src="{
+								path : 'images>/ac',
+                                formatter: '.fnImageSet'
+							}" />
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="에어컨"
 						subheader="에어컨3" press="pressOnAC3">
 						<TileContent>
-							<ImageContent src="{_rootPath}/assets/images/ac.png" />
+							<ImageContent src="{
+								path : 'images>/ac',
+                                formatter: '.fnImageSet'
+							}" />
 						</TileContent>
 					</GenericTile>
 				</l:BlockLayoutCell>
@@ -144,21 +196,30 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="가습기"
 						subheader="가습기1" press="pressOnAH1">
 						<TileContent>
-							<ImageContent src="{_rootPath}/assets/images/humidifier.png" />
+							<ImageContent src="{
+								path : 'images>/hum',
+                                formatter: '.fnImageSet'
+							}" />
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="가습기"
 						subheader="가습기2" press="pressOnAH2">
 						<TileContent>
-							<ImageContent src="{_rootPath}/assets/images/humidifier.png" />
+							<ImageContent src="{
+								path : 'images>/hum',
+                                formatter: '.fnImageSet'
+							}" />
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="가습기"
 						subheader="가습기3" press="pressOnAH3">
 						<TileContent>
-							<ImageContent src="{_rootPath}/assets/images/humidifier.png" />
+							<ImageContent src="{
+								path : 'images>/hum',
+                                formatter: '.fnImageSet'
+							}" />
 						</TileContent>
 					</GenericTile>
 				</l:BlockLayoutCell>
@@ -167,21 +228,30 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="공기청정기"
 						subheader="공기청정기1" press="pressOnACL1">
 						<TileContent>
-							<ImageContent src="{_rootPath}/assets/images/aircleaner.png" />
+							<ImageContent src="{
+								path : 'images>/acl',
+                                formatter: '.fnImageSet'
+							}" />
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="공기청정기"
 						subheader="공기청정기2" press="pressOnACL2">
 						<TileContent>
-							<ImageContent src="{_rootPath}/assets/images/aircleaner.png" />
+							<ImageContent src="{
+								path : 'images>/acl',
+                                formatter: '.fnImageSet'
+							}" />
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="공기청정기"
 						subheader="공기청정기3" press="pressOnACL3">
 						<TileContent>
-							<ImageContent src="{_rootPath}/assets/images/aircleaner.png" />
+							<ImageContent src="{
+								path : 'images>/acl',
+                                formatter: '.fnImageSet'
+							}" />
 						</TileContent>
 					</GenericTile>
 				</l:BlockLayoutCell>

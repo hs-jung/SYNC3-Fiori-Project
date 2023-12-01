@@ -1,7 +1,7 @@
 /**
  * eslint-disable @sap/ui5-jsdocs/no-jsdoc
  */
-_rootPath = jQuery.sap.getModulePath("condition_monitoring");
+_rootPath = jQuery.sap.getModulePath("conditionmonitoring");
 
 sap.ui.define([
         "sap/ui/core/UIComponent",

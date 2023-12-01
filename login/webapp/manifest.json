@@ -7,7 +7,7 @@
     "applicationVersion": {
       "version": "0.0.1"
     },
-    "title": "{{appTitle}}",
+    "title": "로그인/회원가입",
     "description": "{{appDescription}}",
     "resources": "resources.json",
     "sourceTemplate": {

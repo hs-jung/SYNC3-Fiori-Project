@@ -7,7 +7,7 @@
     "applicationVersion": {
       "version": "0.0.1"
     },
-    "title": "{{appTitle}}",
+    "title": "재배환경 모니터링",
     "description": "{{appDescription}}",
     "resources": "resources.json",
     "sourceTemplate": {

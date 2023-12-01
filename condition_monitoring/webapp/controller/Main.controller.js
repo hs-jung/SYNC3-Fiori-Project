@@ -1,14 +1,35 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-	'sap/ui/model/json/JSONModel'
+	'sap/ui/model/json/JSONModel',
+    'sap/m/FlexItemData',
+    'sap/ui/model/FilterOperator',
+    'sap/ui/model/Filter',
+    'sap/viz/ui5/data/FlattenedDataset',
+    'sap/viz/ui5/controls/common/feeds/FeedItem',
+    'sap/viz/ui5/controls/Popover',
+    'sap/viz/ui5/controls/VizFrame',
+    'sap/viz/ui5/controls/VizSlider',
+    'sap/viz/ui5/format/ChartFormatter',
+    'sap/viz/ui5/api/env/Format'
+    
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel) {
+    function (Controller, JSONModel,FlexItemData,
+        FilterOperator,
+        Filter,
+        FlattenedDataset,
+        FeedItem,
+        Popover,
+        VizFrame,
+        VizSlider,
+        ChartFormatter,
+        Format) {
         "use strict";
 
         return Controller.extend("conditionmonitoring.controller.Main", {
+            
             onInit: function () {
                 var oModel = new JSONModel({selectedBackground:"Dashboard"})
                 this.getView().setModel(oModel,'/theme');
@@ -25,6 +46,96 @@ sap.ui.define([
                 
                 //온도, 습도, Co2 데이터 가져오기
                 this.getCondition();
+
+                //images path 가져오기
+                this.getImagePath();
+
+                //main chart setting
+                this.setMainChart();
+            },
+            setMainChart : function() {
+             
+
+                //Chart
+                var oChart = this.getView().byId("idChart");
+                var oChart2 = this.getView().byId("idChart2");
+
+                //Dataset
+                var oDataSet = new FlattenedDataset({
+                    dimensions : [ {name : 'Time',
+                            value : '{data>Time}'
+                        }],
+                    measures : [{
+                        name : 'Temperature',
+                        value : '{data>Temperature}'
+                    },
+                    {
+                        name : 'Humidity',
+                        value : '{data>Humidity}'
+                    }],
+                    data : { path : 'data>/'}
+                });
+
+                var oDataSet2 = new FlattenedDataset({
+                    dimensions : [ {name : 'Time',
+                            value : '{data>Time}'
+                        }],
+                    measures : [{
+                        name : 'Co2',
+                        value : '{data>Co2}'
+                    }],
+                    data : { path : 'data>/'}
+                });
+
+                oChart.setDataset(oDataSet);
+                oChart2.setDataset(oDataSet2);
+
+                //feed
+                var feedValueAxis = new FeedItem({
+                    uid : "valueAxis",
+                    type : "Measure",
+                    values : ['Temperature','Humidity']
+                });
+
+                var feedChategoryAxis = new FeedItem({
+                    uid : "categoryAxis",
+                    type : "Dimension",
+                    values : ['Time']
+                });
+
+                //feed2
+                var feedValueAxis2 = new FeedItem({
+                    uid : "valueAxis",
+                    type : "Measure",
+                    values : ['Co2']
+                });
+
+                var feedChategoryAxis2 = new FeedItem({
+                    uid : "categoryAxis",
+                    type : "Dimension",
+                    values : ['Time']
+                });
+
+
+                oChart.addFeed(feedValueAxis);
+                oChart.addFeed(feedChategoryAxis);
+
+                oChart2.addFeed(feedValueAxis2);
+                oChart2.addFeed(feedChategoryAxis2);
+            },
+            getImagePath : function() {
+                // debugger;
+                var oData = {
+                    str : "/assets/images/str.jpg",
+                    ccb : "/assets/images/ccb.jpg",
+                    tmt : "/assets/images/tmt.jpg",
+                    ac  : "/assets/images/ac.png",
+                    hum : "/assets/images/humidifier.png",
+                    acl : "/assets/images/aircleaner.png"
+                };
+
+                var oModel = new JSONModel(oData);
+                this.getView().setModel(oModel, 'images');
             },
             getMasterInfo : function() {
 
@@ -65,7 +176,8 @@ sap.ui.define([
                                 avr_humidity : "",
                                 avr_co2 : "",
                                 mtname_kor : "딸기",
-                                mtcode : "MM00000002"
+                                mtcode : "MM00000002",
+                                imagepath : "/assets/images/str.jpg"
                             });
                         var oCcbModel = new JSONModel(
                             {
@@ -79,7 +191,8 @@ sap.ui.define([
                                 avr_humidity : "",
                                 avr_co2 : "",
                                 mtname_kor : "오이",
-                                mtcode : "MM00000007"
+                                mtcode : "MM00000007",
+                                imagepath : "/assets/images/ccb.jpg"
                             });
                         var oTmtModel = new JSONModel(
                             {
@@ -93,7 +206,8 @@ sap.ui.define([
                                 avr_humidity : "",
                                 avr_co2 : "",
                                 mtname_kor : "토마토",
-                                mtcode : "MM00000012"
+                                mtcode : "MM00000012",
+                                imagepath : "/assets/images/tmt.jpg"
                             });
 
                         this.getView().setModel(oReturn.results,"/MTMASTER");
@@ -145,9 +259,10 @@ sap.ui.define([
                 this.byId("containerLayout").setWidth(fValue + "%");
             },
             fnImageSet : function(path) {
-                // debugger;
-                return _rootPath + path;
-
+                if(path){
+                    // debugger;
+                    return _rootPath + path;
+                }
             },
             pressOnstr : function() {
                 var oMainData = this.getView().getModel('main').getData();
