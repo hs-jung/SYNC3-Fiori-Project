@@ -27,3 +27,7 @@
 #application-Z03SE_MM_CONDITION-display-component---App--app{
     overflow-y : scroll;
 }
+
+.grayscale{
+    filter: grayscale(100%);
+}

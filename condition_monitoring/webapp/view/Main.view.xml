@@ -1,4 +1,4 @@
-<mvc:View controllerName="conditionmonitoring.controller.Main"
+<mvc:View xmlns:filterbar="sap.ui.comp.filterbar" controllerName="conditionmonitoring.controller.Main"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m"
     xmlns:l="sap.ui.layout"
@@ -37,6 +37,15 @@
 		
 			<l:BlockLayoutRow>
 				<l:BlockLayoutCell title="농작물 리스트">
+					<Toolbar >
+					<ToolbarSpacer />
+					<Label text="실시간 데이터 조회"></Label>
+					<Switch state="false" customTextOn="Yes" customTextOff="No" id="realTime">
+						<layoutData>
+							<FlexItemData growFactor="1" />
+						</layoutData>
+					</Switch>
+					</Toolbar>
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{str>/mtname_kor}"
 						subheader="{str>/mtcode}" press="pressOnstr">
 						<TileContent>
@@ -141,21 +150,21 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="온풍기"
 						subheader="온풍기1" press="pressOnheater1">
 						<TileContent>
-							<ImageContent src="sap-icon://temperature" />
+							<ImageContent src="sap-icon://temperature" class="grayscale"/>
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="온풍기"
 						subheader="온풍기2" press="pressOnheater2">
 						<TileContent>
-							<ImageContent src="sap-icon://temperature" />
+							<ImageContent src="sap-icon://temperature" class="grayscale"/>
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="온풍기"
 						subheader="온풍기3" press="pressOnheater3">
 						<TileContent>
-							<ImageContent src="sap-icon://temperature" />
+							<ImageContent src="sap-icon://temperature" class="grayscale"/>
 						</TileContent>
 					</GenericTile>
 				</l:BlockLayoutCell>
@@ -167,7 +176,7 @@
 							<ImageContent src="{
 								path : 'images>/ac',
                                 formatter: '.fnImageSet'
-							}" />
+							}" class="grayscale" />
 						</TileContent>
 					</GenericTile>
 
@@ -177,7 +186,7 @@
 							<ImageContent src="{
 								path : 'images>/ac',
                                 formatter: '.fnImageSet'
-							}" />
+							}" class="grayscale" />
 						</TileContent>
 					</GenericTile>
 
@@ -187,7 +196,7 @@
 							<ImageContent src="{
 								path : 'images>/ac',
                                 formatter: '.fnImageSet'
-							}" />
+							}" class="grayscale" />
 						</TileContent>
 					</GenericTile>
 				</l:BlockLayoutCell>
@@ -199,7 +208,7 @@
 							<ImageContent src="{
 								path : 'images>/hum',
                                 formatter: '.fnImageSet'
-							}" />
+							}" class="grayscale" />
 						</TileContent>
 					</GenericTile>
 
@@ -209,7 +218,7 @@
 							<ImageContent src="{
 								path : 'images>/hum',
                                 formatter: '.fnImageSet'
-							}" />
+							}" class="grayscale" />
 						</TileContent>
 					</GenericTile>
 
@@ -219,7 +228,7 @@
 							<ImageContent src="{
 								path : 'images>/hum',
                                 formatter: '.fnImageSet'
-							}" />
+							}" class="grayscale" />
 						</TileContent>
 					</GenericTile>
 				</l:BlockLayoutCell>
@@ -231,7 +240,7 @@
 							<ImageContent src="{
 								path : 'images>/acl',
                                 formatter: '.fnImageSet'
-							}" />
+							}" class="grayscale" />
 						</TileContent>
 					</GenericTile>
 
@@ -241,7 +250,7 @@
 							<ImageContent src="{
 								path : 'images>/acl',
                                 formatter: '.fnImageSet'
-							}" />
+							}" class="grayscale" />
 						</TileContent>
 					</GenericTile>
 
@@ -251,7 +260,7 @@
 							<ImageContent src="{
 								path : 'images>/acl',
                                 formatter: '.fnImageSet'
-							}" />
+							}" class="grayscale" />
 						</TileContent>
 					</GenericTile>
 				</l:BlockLayoutCell>
