@@ -70,28 +70,28 @@ sap.ui.define([
                 //Dataset
                 var oDataSet = new FlattenedDataset({
                     dimensions : [ {name : 'Time',
-                            value : '{data>Time}'
+                            value : '{dataR>Time}'
                         }],
                     measures : [{
                         name : 'Temperature',
-                        value : '{data>Temperature}'
+                        value : '{dataR>Temperature}'
                     },
                     {
                         name : 'Humidity',
-                        value : '{data>Humidity}'
+                        value : '{dataR>Humidity}'
                     }],
-                    data : { path : 'data>/'}
+                    data : { path : 'dataR>/'}
                 });
 
                 var oDataSet2 = new FlattenedDataset({
                     dimensions : [ {name : 'Time',
-                            value : '{data>Time}'
+                            value : '{dataR>Time}'
                         }],
                     measures : [{
                         name : 'Co2',
-                        value : '{data>Co2}'
+                        value : '{dataR>Co2}'
                     }],
-                    data : { path : 'data>/'}
+                    data : { path : 'dataR>/'}
                 });
 
                 oChart.setDataset(oDataSet);
@@ -248,20 +248,15 @@ sap.ui.define([
                 oDataModel.read( uri, {
                     success : function(oReturn) {
                         // debugger;
-
-                        console.log(oReturn.results);
-
                         var oLastDataModel = new JSONModel(oReturn.results[0]);
                         this.getView().setModel(oLastDataModel, 'lastdata');
 
-                        oReturn.results.sort(function(a, b) {
-                            return a.Time - b.Time;
-                        });
-
                         var oDataModel = new JSONModel(oReturn.results);
-                        console.log(oReturn.results);
                         this.getView().setModel(oDataModel, 'data');
-                        
+
+                        var oDataModelR = new JSONModel(oReturn.results.reverse());
+                        this.getView().setModel(oDataModelR, 'dataR');
+
                         //set Power
                         this.setPower();
 
@@ -488,16 +483,16 @@ sap.ui.define([
                             // debugger;
                             var oLastDataModel = new JSONModel(oReturn.results[0]);
                             
-                            console.log("old Last time : ", oLastData.Time);
-                            console.log("new last Time : ", oLastDataModel.oData.Time);
-                            console.log(oLastDataModel.oData.Time > oLastData.Time);
+                            // console.log("old Last time : ", oLastData.Time);
+                            // console.log("new last Time : ", oLastDataModel.oData.Time);
+                            // console.log(oLastDataModel.oData.Time > oLastData.Time);
                             
                             if( oLastDataModel.oData.Time > oLastData.Time)
                             {
-                                console.log(oReturn.results);
                                 this.getView().setModel(oLastDataModel, 'lastdata');
     
-                                oDataList.push(oLastDataModel);
+                                oDataList.push(oLastDataModel.getData());
+                                // console.log(oDataList);
 
                                 var onewDataModel = new JSONModel(oDataList);
                                 this.getView().setModel(onewDataModel, 'data');
@@ -510,8 +505,6 @@ sap.ui.define([
                         }.bind(this)
                     });
                 }
-                
-                
             }
         });
     });

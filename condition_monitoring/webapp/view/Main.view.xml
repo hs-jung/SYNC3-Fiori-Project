@@ -268,8 +268,11 @@
 			<l:BlockLayoutRow accentCells="Accent3">
 				<l:BlockLayoutCell id="Accent3">
 					<t:Table
+					id="table"
                     rows="{data>/}"
                     paste="onPaste"
+					selectionMode="None"
+
                     ariaLabelledBy="title">
                         <t:extension>
                             <OverflowToolbar style="Clear">
@@ -277,7 +280,10 @@
                             </OverflowToolbar>
                         </t:extension>
                         <t:columns>
-                            <t:Column width="11rem">
+                            <t:Column 
+								id="idTCdate"
+								sortProperty="Time"
+								width="11rem">
                                 <Label text="측정일시" />
                                 <t:template>
                                     <Text text="{data>Time}" wrapping="false" />
