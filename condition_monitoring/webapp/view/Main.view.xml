@@ -83,6 +83,7 @@
 				<l:BlockLayoutCell
 						title=" 현재 온도 {lastdata>/Temperature} ℃">
 					<Text text="Best Condition Temperature {main>/bst_temperature} {= ${main>/bst_temperature} > 0 ? '℃' : ''}"/>
+
 				</l:BlockLayoutCell>
 				<l:BlockLayoutCell
 						title="현재 습도 {lastdata>/Humidity} %">
@@ -150,21 +151,21 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="온풍기"
 						subheader="온풍기1" press="pressOnheater1">
 						<TileContent>
-							<ImageContent src="sap-icon://temperature" class="grayscale"/>
+							<ImageContent id="onp1" src="sap-icon://temperature" class="grayscale"/>
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="온풍기"
 						subheader="온풍기2" press="pressOnheater2">
 						<TileContent>
-							<ImageContent src="sap-icon://temperature" class="grayscale"/>
+							<ImageContent id="onp2" src="sap-icon://temperature" class="grayscale"/>
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="온풍기"
 						subheader="온풍기3" press="pressOnheater3">
 						<TileContent>
-							<ImageContent src="sap-icon://temperature" class="grayscale"/>
+							<ImageContent id="onp3" src="sap-icon://temperature" class="grayscale"/>
 						</TileContent>
 					</GenericTile>
 				</l:BlockLayoutCell>
@@ -173,7 +174,7 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="에어컨"
 						subheader="에어컨1" press="pressOnAC1">
 						<TileContent>
-							<ImageContent src="{
+							<ImageContent id="air1" src="{
 								path : 'images>/ac',
                                 formatter: '.fnImageSet'
 							}" class="grayscale" />
@@ -183,7 +184,7 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="에어컨"
 						subheader="에어컨2" press="pressOnAC2">
 						<TileContent>
-							<ImageContent src="{
+							<ImageContent id="air2" src="{
 								path : 'images>/ac',
                                 formatter: '.fnImageSet'
 							}" class="grayscale" />
@@ -193,7 +194,7 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="에어컨"
 						subheader="에어컨3" press="pressOnAC3">
 						<TileContent>
-							<ImageContent src="{
+							<ImageContent id="air3" src="{
 								path : 'images>/ac',
                                 formatter: '.fnImageSet'
 							}" class="grayscale" />
@@ -205,7 +206,7 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="가습기"
 						subheader="가습기1" press="pressOnAH1">
 						<TileContent>
-							<ImageContent src="{
+							<ImageContent id="gas1" src="{
 								path : 'images>/hum',
                                 formatter: '.fnImageSet'
 							}" class="grayscale" />
@@ -215,7 +216,7 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="가습기"
 						subheader="가습기2" press="pressOnAH2">
 						<TileContent>
-							<ImageContent src="{
+							<ImageContent id="gas2" src="{
 								path : 'images>/hum',
                                 formatter: '.fnImageSet'
 							}" class="grayscale" />
@@ -225,7 +226,7 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="가습기"
 						subheader="가습기3" press="pressOnAH3">
 						<TileContent>
-							<ImageContent src="{
+							<ImageContent id="gas3" src="{
 								path : 'images>/hum',
                                 formatter: '.fnImageSet'
 							}" class="grayscale" />
@@ -237,7 +238,7 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="공기청정기"
 						subheader="공기청정기1" press="pressOnACL1">
 						<TileContent>
-							<ImageContent src="{
+							<ImageContent id="gog1" src="{
 								path : 'images>/acl',
                                 formatter: '.fnImageSet'
 							}" class="grayscale" />
@@ -247,7 +248,7 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="공기청정기"
 						subheader="공기청정기2" press="pressOnACL2">
 						<TileContent>
-							<ImageContent src="{
+							<ImageContent id="gog2" src="{
 								path : 'images>/acl',
                                 formatter: '.fnImageSet'
 							}" class="grayscale" />
@@ -257,7 +258,7 @@
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="공기청정기"
 						subheader="공기청정기3" press="pressOnACL3">
 						<TileContent>
-							<ImageContent src="{
+							<ImageContent id="gog3" src="{
 								path : 'images>/acl',
                                 formatter: '.fnImageSet'
 							}" class="grayscale" />

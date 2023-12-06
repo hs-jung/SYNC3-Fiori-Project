@@ -123,7 +123,6 @@ sap.ui.define([
                     values : ['Time']
                 });
 
-
                 oChart.addFeed(feedValueAxis);
                 oChart.addFeed(feedChategoryAxis);
 
@@ -145,7 +144,7 @@ sap.ui.define([
                 this.getView().setModel(oModel, 'images');
             },
             getMasterInfo : function() {
-
+                console.log("Master Info");
                 var uri = "/ItemsSet";
                 // var oDataModel = this.getOwnerComponent().getModel();
                 var oDataModel = this.getView().getModel();
@@ -331,7 +330,7 @@ sap.ui.define([
                 this.setPower();
             },
             setPower : function() {
-
+                console.log("2 Set Power");
 
                 var oDataStrTemp = this.getView().getModel('MTMASTER')[2].Tem;
                 var oDataCcbTemp = this.getView().getModel('MTMASTER')[7].Tem;
@@ -350,58 +349,77 @@ sap.ui.define([
                 //딸기 온풍기/에어컨
                 if( oDataCurrentData.Temperature * 1  > oDataStrTemp * 1){
                     //에어컨 On
-                    $("#__content14").css({'filter':'grayscale(0)'});
+                    // $("#__content14").css({'filter':'grayscale(0)'});
+                    this.byId("air1").addStyleClass('grayscale_off');
 
                     //온풍기 Off
-                    $("#__content8").css({'filter':'grayscale(100)'});
+                    // $("#__content27").css({'filter':'grayscale(100)'});
+                    this.byId("onp1").addStyleClass('grayscale');
+
                 }else if( oDataCurrentData.Temperature * 1 < oDataStrTemp * 1){
-                    //온풍기 On__content8
-                    $("#__content8").css({'filter':'grayscale(0)'});
+                    //온풍기 On__content27
+                    // $("#__content27").css({'filter':'grayscale(0)'});
+                    this.byId("onp1").addStyleClass('grayscale_off');
                     //에어컨 Off
-                    $("#__content14").css({'filter':'grayscale(100)'});
+                    // $("#__content14").css({'filter':'grayscale(100)'});
+                    this.byId("air1").addStyleClass('grayscale');
                 }else{
                      //온풍기 Off
-                     $("#__content8").css({'filter':'grayscale(100)'});
+                    //  $("#__content27").css({'filter':'grayscale(100)'});
+                    this.byId("onp1").addStyleClass('grayscale');
                       //에어컨 Off
-                    $("#__content14").css({'filter':'grayscale(100)'});
+                    // $("#__content14").css({'filter':'grayscale(100)'});
+                    this.byId("air1").addStyleClass('grayscale');
                 }
 
                 //오이 온풍기/에어컨
                 if( oDataCurrentData.Temperature * 1 > oDataCcbTemp * 1){
                     //에어컨 On
-                    $("#__content16").css({'filter':'grayscale(0)'});
+                    // $("#__content16").css({'filter':'grayscale(0)'});
+                    this.byId("air2").addStyleClass('grayscale_off');
 
                     //온풍기 Off
-                    $("#___content10").css({'filter':'grayscale(100)'});
+                    // $("#__content27").css({'filter':'grayscale(100)'});
+                    this.byId("onp2").addStyleClass('grayscale');
                 }else if( oDataCurrentData.Temperature * 1 < oDataCcbTemp * 1){
-                    //온풍기 On___content10
-                    $("#___content10").css({'filter':'grayscale(0)'});
+                    //온풍기 On__content27
+                    // $("#__content27").css({'filter':'grayscale(0)'});
+                    this.byId("onp2").addStyleClass('grayscale_off');
                     //에어컨 Off
-                    $("#__content16").css({'filter':'grayscale(100)'});
+                    // $("#__content16").css({'filter':'grayscale(100)'});
+                    this.byId("air2").addStyleClass('grayscale');
                 }else{
                      //온풍기 Off
-                     $("#___content10").css({'filter':'grayscale(100)'});
+                    //  $("#__content27").css({'filter':'grayscale(100)'});
+                    this.byId("onp2").addStyleClass('grayscale');
                       //에어컨 Off
-                    $("#__content16").css({'filter':'grayscale(100)'});
+                    // $("#__content16").css({'filter':'grayscale(100)'});
+                    this.byId("air2").addStyleClass('grayscale');
                 }
 
                 //토마토 온풍기/에어컨
                 if( oDataCurrentData.Temperature * 1 > oDataTmtTemp * 1){
                     //에어컨 On
-                    $("#__content18").css({'filter':'grayscale(0)'});
+                    // $("#__content18").css({'filter':'grayscale(0)'});
+                    this.byId("air3").addStyleClass('grayscale_off');
 
                     //온풍기 Off
-                    $("#__content12").css({'filter':'grayscale(100)'});
+                    // $("#__content12").css({'filter':'grayscale(100)'});
+                    this.byId("onp3").addStyleClass('grayscale');
                 }else if( oDataCurrentData.Temperature * 1 < oDataTmtTemp * 1){
                     //온풍기 On__content12
-                    $("#__content12").css({'filter':'grayscale(0)'});
+                    // $("#__content12").css({'filter':'grayscale(0)'});
+                    this.byId("onp3").addStyleClass('grayscale_off');
                     //에어컨 Off
-                    $("#__content18").css({'filter':'grayscale(100)'});
+                    // $("#__content18").css({'filter':'grayscale(100)'});
+                    this.byId("air3").addStyleClass('grayscale');
                 }else{
                      //온풍기 Off
-                     $("#__content12").css({'filter':'grayscale(100)'});
+                    //  $("#__content12").css({'filter':'grayscale(100)'});
+                    this.byId("onp3").addStyleClass('grayscale');
                       //에어컨 Off
-                    $("#__content18").css({'filter':'grayscale(100)'});
+                    // $("#__content18").css({'filter':'grayscale(100)'});
+                    this.byId("air3").addStyleClass('grayscale');
                 }
 
 
@@ -411,28 +429,34 @@ sap.ui.define([
                  //딸기 가습기
                  if( oDataCurrentData.Humidity * 1 < oDataStrHum * 1){
                     //가습기 On
-                    $("#__content20").css({'filter':'grayscale(0)'});
+                    // $("#__content20").css({'filter':'grayscale(0)'});
+                    this.byId("gas1").addStyleClass('grayscale_off');
                 }else{
                     //가습기 Off
-                    $("#__content20").css({'filter':'grayscale(100)'});
+                    // $("#__content20").css({'filter':'grayscale(100)'});
+                    this.byId("gas1").addStyleClass('grayscale');
                 }
 
                 //오이 가습기
                 if( oDataCurrentData.Humidity * 1 < oDataCcbHum * 1){
                     //가습기 On
-                    $("#__content22").css({'filter':'grayscale(0)'});
+                    // $("#__content22").css({'filter':'grayscale(0)'});
+                    this.byId("gas2").addStyleClass('grayscale_off');
                 }else{
                     //가습기 Off
-                    $("#__content22").css({'filter':'grayscale(100)'});
+                    // $("#__content22").css({'filter':'grayscale(100)'});
+                    this.byId("gas2").addStyleClass('grayscale');
                 }
 
                 //토마토 가습기
                 if( oDataCurrentData.Humidity * 1 < oDataTmtHum * 1){
                     //가습기 On
-                    $("#__content24").css({'filter':'grayscale(0)'});
+                    // $("#__content24").css({'filter':'grayscale(0)'});
+                    this.byId("gas3").addStyleClass('grayscale_off');
                 }else{
                     //가습기 Off
-                    $("#__content24").css({'filter':'grayscale(100)'});
+                    // $("#__content24").css({'filter':'grayscale(100)'});
+                    this.byId("gas3").addStyleClass('grayscale');
                 }
 
 
@@ -441,44 +465,59 @@ sap.ui.define([
                  //딸기 공기청정기
                  if( oDataCurrentData.Co2 * 1 > oDataStrCo2 * 1){
                     //공기청정기 On
-                    $("#__content26").css({'filter':'grayscale(0)'});
+                    // $("#__content26").css({'filter':'grayscale(0)'});
+                    this.byId("gog1").addStyleClass('grayscale_off');
                 }else{
                     //공기청정기 Off
-                    $("#__content26").css({'filter':'grayscale(100)'});
+                    // $("#__content26").css({'filter':'grayscale(100)'});
+                    this.byId("gog1").addStyleClass('grayscale');
                 }
 
                 //오이 공기청정기
                 if( oDataCurrentData.Co2 * 1 > oDataCcbCo2 * 1){
                     //공기청정기 On
-                    $("#__content28").css({'filter':'grayscale(0)'});
+                    // $("#__content28").css({'filter':'grayscale(0)'});
+                    this.byId("gog2").addStyleClass('grayscale_off');
                 }else{
                     //공기청정기 Off
-                    $("#__content28").css({'filter':'grayscale(100)'});
+                    // $("#__content28").css({'filter':'grayscale(100)'});
+                    this.byId("gog2").addStyleClass('grayscale');
                 }
 
                 //토마토 공기청정기
                 if( oDataCurrentData.Co2 * 1 > oDataTmtCo2 * 1){
                     //공기청정기 On
-                    $("#__content30").css({'filter':'grayscale(0)'});
+                    // $("#__content30").css({'filter':'grayscale(0)'});
+                    this.byId("gog3").addStyleClass('grayscale_off');
                 }else{
                     //공기청정기 Off
-                    $("#__content30").css({'filter':'grayscale(100)'});
+                    // $("#__content30").css({'filter':'grayscale(100)'});
+                    this.byId("gog3").addStyleClass('grayscale');
                 }
-
 
             },
             getRealTimeData : function() {
-                var uri = "/ConditionSet";
-                // var oDataModel = this.getOwnerComponent().getModel();
-                var oDataModel = this.getView().getModel();
+                console.log("3 setInterval");
+                if(!(this._uri ||
+                    this._oDataModel ||
+                    this._isRealTimeExe ||
+                    this._oLastData ||
+                    this._oDataList)) {
+                        this._uri = "/ConditionSet";
+                        // var oDataModel = this.getOwnerComponent().getModel();
+                        this._oDataModel = this.getView().getModel();
+        
+                        this._isRealTimeExe = this.byId('realTime');
+                        this._oLastData = this.getView().getModel('lastdata').getData();
+                        this._oDataList = this.getView().getModel('data').getData();
+                }
 
-                var isRealTimeExe = this.byId('realTime');
-                var oLastData = this.getView().getModel('lastdata').getData();
-                var oDataList = this.getView().getModel('data').getData();
+                //set Power
+                this.setPower();
                 
-                if(isRealTimeExe.getState())
+                if(this._isRealTimeExe.getState())
                 {
-                    oDataModel.read( uri, {
+                    this._oDataModel.read( this._uri, {
                         success : function(oReturn) {
                             // debugger;
                             var oLastDataModel = new JSONModel(oReturn.results[0]);
@@ -487,7 +526,7 @@ sap.ui.define([
                             // console.log("new last Time : ", oLastDataModel.oData.Time);
                             // console.log(oLastDataModel.oData.Time > oLastData.Time);
                             
-                            if( oLastDataModel.oData.Time > oLastData.Time)
+                            if( oLastDataModel.oData.Time > this._oLastData.Time)
                             {
                                 this.getView().setModel(oLastDataModel, 'lastdata');
     

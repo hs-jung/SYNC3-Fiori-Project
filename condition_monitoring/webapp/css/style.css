@@ -31,3 +31,7 @@
 .grayscale{
     filter: grayscale(100%);
 }
+
+.grayscale_off{
+    filter: grayscale(0);
+}
