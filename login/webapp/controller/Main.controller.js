@@ -68,29 +68,29 @@ sap.ui.define([
                 return _rootPath + '/assets/image/logo.png';
             },
             onMoveApp: function () {
-                const oCrossAppNavigator = sap.ushell.Container.getService(
-                  "CrossApplicationNavigation"
-                );
+              const oCrossAppNavigator = sap.ushell.Container.getService(
+                "CrossApplicationNavigation"
+              );
 
-                var custId = this.getView().getModel('CustID').getData();
-                debugger;
-        
-                const hash =
-                  (oCrossAppNavigator &&
-                    oCrossAppNavigator.hrefForExternal({
-                      target: {
-                        semanticObject: "Z03SE_HOME",
-                        action: "display",
-                      },
-                      params: {CustID: custId.CustID},
-                    })) ||
-                  "";
-        
-                oCrossAppNavigator.toExternal({
-                  target: {
-                    shellHash: hash,
-                  },
-                });
-              }
+              var custId = this.getView().getModel('CustID').getData();
+              // debugger;
+      
+              const hash =
+                (oCrossAppNavigator &&
+                  oCrossAppNavigator.hrefForExternal({
+                    target: {
+                      semanticObject: "Z03SE_HOME",
+                      action: "display",
+                    },
+                    params: {CustID: custId.CustID},
+                  })) ||
+                "";
+      
+              oCrossAppNavigator.toExternal({
+                target: {
+                  shellHash: hash,
+                },
+              });
+            }
         });
     });

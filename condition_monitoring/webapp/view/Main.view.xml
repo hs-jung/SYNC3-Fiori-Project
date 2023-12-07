@@ -138,7 +138,7 @@
 								<c:content>
 									<!-- <viz:VizFrame id="chartContainerVizFrame" height="100%" width="100%"
 									              uiConfig="{applicationSet:'fiori'}"></viz:VizFrame> -->
-                                    <viz:VizFrame  id="idChart2" vizType="line" />
+                                    <viz:VizFrame  id="idChart2" vizType="line"/>
 								</c:content>
 							</c:ChartContainerContent>
 						</c:content>
